@@ -1,4 +1,4 @@
-%DA_Wheel_PeakAnalysis.m created by Brandon L. Oliver, M.A. for use by the
+%DA_Wheel_PeakAnalysis_Loco.m created by Brandon L. Oliver, M.A. for use by the
 %lab of Dr. Natalie Zlebnik
 
 %Input = Locomotor DA recording tanks
