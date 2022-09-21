@@ -23,7 +23,6 @@ warning('off','all');
 warning
 BLOCKPATH = '/Users/brandon/Desktop/DA_WHEEL_DATA/DA_WHEEL_TANKS/Wheel-DA13';
 data = TDTbin2mat(BLOCKPATH, 'TYPE', {'epocs', 'streams'});
-
 %% makes new wheel data epocs %%
 %% epocs created in TDT OpenScope save in the notes of Cam1 %% 
 %combine index with timestamp data from Cam1 notes%
