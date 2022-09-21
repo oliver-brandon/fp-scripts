@@ -8,7 +8,8 @@
 
 %Instructions: Point MATLAB at the desired TDT tank folder (data) and click run. 
 %Data is output as a table called "master_peak_analysis." There is also a 
-%"session_avg" table that displays the average peaks & peaks/s for the session. 
+%"session_avg" table that displays the average peaks, peaks/s, max peak amp,
+% and avg peak amp for the session. 
 %This script uses manual TTLs from the Cam1 epoch to create "runBout" time
 %stamps. 
 
@@ -141,13 +142,24 @@ for y = 1:end_ts
   
     [pks3,locs3,w3,p3] = findpeaks(DOPE1_sig, DOPE_time, 'MinPeakHeight', MAD1);
     [pks4,locs4,w4,p4] = findpeaks(DOPE2_sig, DOPE_time, 'MinPeakHeight', MAD2);
+    if isempty(pks3)
+        pks3 = 0;
+    end
+    if isempty(pks4)
+        pks4 = 0;
+    end
     DLS_numpeak = length(pks3);
     DLS_pk_sec = DLS_numpeak/(y2-y1);
+    DLS_max_amp = max(pks3);
+    DLS_avg_amp = mean(pks3);
     NAc_numpeak = length(pks4);
     NAc_pk_sec = NAc_numpeak/(y2-y1);
-    noRun_peak_analysis(y,:) = table(DLS_numpeak, DLS_pk_sec, NAc_numpeak, ...
-        NAc_pk_sec, 'VariableNames', {'DLS Peaks Stop', 'DLS Peaks/s Stop', ...
-        'NAc Peaks Stop', 'NAc Peaks/s Stop'});
+    NAc_max_amp = max(pks4);
+    NAc_avg_amp = mean(pks4);
+    noRun_peak_analysis(y,:) = table(DLS_numpeak, DLS_pk_sec, DLS_max_amp, DLS_avg_amp, NAc_numpeak, ...
+        NAc_pk_sec, NAc_max_amp, NAc_avg_amp, 'VariableNames', {'DLS Peaks Stop', 'DLS Peaks/s Stop', ...
+        'DLS Max Amp Stop', 'DLS Avg Amp Stop', 'NAc Peaks Stop', 'NAc Peaks/s Stop', 'NAc Max Amp Stop', ...
+        'NAc Avg Amp Stop'});
 end
 
 %Peak analysis for running bouts%
@@ -162,13 +174,24 @@ for x = 1:end_ts
   
     [pks3,locs3,w3,p3] = findpeaks(DOPE1_sig, DOPE_time, 'MinPeakHeight', MAD1);
     [pks4,locs4,w4,p4] = findpeaks(DOPE2_sig, DOPE_time, 'MinPeakHeight', MAD2);
+    if isempty(pks3)
+        pks3 = 0;
+    end
+    if isempty(pks4)
+        pks4 = 0;
+    end
     DLS_numpeak = length(pks3);
     DLS_pk_sec = DLS_numpeak/(x2-x1);
+    DLS_max_amp = max(pks3);
+    DLS_avg_amp = mean(pks3);
     NAc_numpeak = length(pks4);
     NAc_pk_sec = NAc_numpeak/(x2-x1);
-    peak_analysis(x,:) = table(DLS_numpeak, DLS_pk_sec, NAc_numpeak, ...
-        NAc_pk_sec, 'VariableNames', {'DLS Peaks Run', 'DLS Peaks/s Run', ...
-        'NAc Peaks Run', 'NAc Peaks/s Run'});
+    NAc_max_amp = max(pks4);
+    NAc_avg_amp = mean(pks4);
+    peak_analysis(x,:) = table(DLS_numpeak, DLS_pk_sec, DLS_max_amp, DLS_avg_amp, NAc_numpeak, ...
+        NAc_pk_sec, NAc_max_amp, NAc_avg_amp, 'VariableNames', {'DLS Peaks Run', 'DLS Peaks/s Run', ...
+        'DLS Max Amp Run', 'DLS Avg Amp Run', 'NAc Peaks Run', 'NAc Peaks/s Run', ...
+        'NAc Max Amp Run', 'NAc Avg Amp Run'});
 end
 %combines peak analysis for run bouts and non run bouts into one table%
 master_peak_analysis = [peak_analysis noRun_peak_analysis];
