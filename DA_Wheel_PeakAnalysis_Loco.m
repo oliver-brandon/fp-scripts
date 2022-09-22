@@ -21,7 +21,7 @@ warning('off','all');
 warning
 %Choose session duration and tank location%
 session_duration = 3600; %duration of recording in seconds
-BLOCKPATH = 'F:\DA_WHEEL_TANKS\DA13_VEH';
+BLOCKPATH = '/Users/brandon/Desktop/DA_WHEEL_DATA/DA_WHEEL_TANKS/DA14_COC';
 data = TDTbin2mat(BLOCKPATH, 'T2', session_duration, 'TYPE', {'epocs', 'streams'});
 
 %Stream Stores%
@@ -72,18 +72,18 @@ MAD2 = mad(detrend_465C, 1);
 [pks2,locs2,w2,p2] = findpeaks(detrend_465C, time, 'MinPeakHeight', MAD2);
 
 DLS_pks = length(pks);
-DLS_pk_sec = (DLS_pks/session_duration);
+DLS_pk_min = (DLS_pks/session_duration)*60;
 DLS_amp_max = max(pks);
 DLS_amp_avg = mean(pks);
 NAc_pks = length(pks2);
-NAc_pk_sec = (NAc_pks/session_duration);
+NAc_pk_min = (NAc_pks/session_duration)*60;
 NAc_amp_max = max(pks2);
 NAc_amp_avg = mean(pks2);
 
-peak_analysis = table(DLS_pks, DLS_pk_sec, DLS_amp_max, DLS_amp_avg, ...
-    NAc_pks, NAc_pk_sec, NAc_amp_max, NAc_amp_avg, ...
-    'VariableNames', {'DLS Peaks','DLS Peaks/s','DLS Max Amp', ...
-    'DLS Avg Amp','NAc Peaks','NAc Peaks/s','Nac Max Amp', ...
+peak_analysis = table(DLS_pks, DLS_pk_min, DLS_amp_max, DLS_amp_avg, ...
+    NAc_pks, NAc_pk_min, NAc_amp_max, NAc_amp_avg, ...
+    'VariableNames', {'DLS Peaks','DLS Peaks/m','DLS Max Amp', ...
+    'DLS Avg Amp','NAc Peaks','NAc Peaks/m','Nac Max Amp', ...
     'NAc Avg Amp'});
 
 %plots entire streams with peak indicators% 
@@ -91,3 +91,8 @@ subplot(2,1,1);
 findpeaks(detrend_465A, time, 'MinPeakHeight', MAD1);
 subplot(2,1,2)
 findpeaks(detrend_465C, time, 'MinPeakHeight', MAD2);
+
+%UITable (figure) that displays "master_peak_analysis" table%
+figure;
+uitable('Data',peak_analysis{:,:},'ColumnName',peak_analysis.Properties.VariableNames,...
+    'RowName',peak_analysis.Properties.RowNames,'Units', 'Normalized', 'Position',[0, 0, 1, 1]);
