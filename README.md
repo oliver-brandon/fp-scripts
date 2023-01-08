@@ -1,4 +1,4 @@
-# fp-scripts
+# wheel-running-analysis
 MATLAB scripts for analyzing TDT fiber-photometry data.
 
 "TDTbin2mat.m", "TDTfilter.m", and "SEV2mat.m" must be in the same directory as the analysis scripts to work.
