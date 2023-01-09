@@ -13,9 +13,6 @@
 %This script uses manual TTLs from the Cam1 epoch to create "runBout" time
 %stamps. 
 
-%For reference, an animal with a verified signal of any kind will usually
-%have a MAD value (refer to MAD1 or MAD2) of 2-10 while an animal with very
-%poor or non-existant signal will typically have a MAD value of over ~20-30
 %MAD1 = MAD value for the 465A and MAD2 = MAD value for the 465C
 clear all; clc; close all;
 %removes polyfit warning%
